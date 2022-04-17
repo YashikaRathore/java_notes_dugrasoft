@@ -6,9 +6,9 @@ case 1 :
 
 String s = new String("Durga ");			StringBuffer sb = new StringBuffer("Durga")
 
-s.concad("software");					sb.append(" software");
+s.concat("software");					sb.append(" software");
 
-sopln(s);	//Durga 				sopln(sb);	// Durga Software
+sopln(s);	//Durga 				sopln(sb);	// Durga software
 
 
 once we create a String object				once we create StringBuffer object we can perform any			
@@ -46,14 +46,17 @@ returns true.						are different .equals() method returns false even though
 Case 3:
 ________
 
-String s = new String("Durga");				String s = "Durga";
+String s = new String("durga");				String s = "durga";
 
 in this case 2 objects will be 				in this case only one object will be created in
 created 1 in the heap area				SCP and s is always pointing to that object
-another is in String constant Pool
+another is in String constant Pool			Here, s will point to SCP's 'durga'.
 (SCP or String literal pool) and 
 S is always pointing to heap object.
-
+Here, there will be no explicit pointer 
+to SCP's 'durga'. However, JVM will 
+maintain an internal reference/pointer 
+to it. 
 
 heap	|    SCP					heap	|   SCP				
 ________|___________					________|__________
@@ -74,27 +77,26 @@ All SCP objects will be destroyed automatically at the time of JVM shutdown.
 
 e.g. 2.
 
-String s1 = new String("Durga");
-String s2 = new String("Durga");
-String s3 = "Durga";
-String s4 = "Durga";
+String s1 = new String("durga");
+String s2 = new String("durga");
+String s3 = "durga";
+String s4 = "durga";
 
 	heap	|    SCP		
 ________________|___________		
 durga<--(s1)	|   durga<---------s3, s4		
 		|
-durga<--(s1)	|
+durga<--(s2)	|
 
 Note : 
 _______
-Whenever we are using new operator compulsory a new object will be created in heap area hence there may be a chance of existing two objects with same content in the heap area. But not in SCP.
-
-i.e duplicate objects are possible in the heap area but not in SCP.
+Whenever we are using new operator compulsory a new object will be created in heap area hence there may be a chance of 
+existing two objects with same content in the heap area. But not in SCP i.e duplicate objects are possible in the heap area but not in SCP.
 
 String s1 = new String("Durga");
-s1.concad("software");
-String s2 = s1.concad(" Solutions");
-s1 = s1.concad("soft");
+s1.concat("software");
+String s2 = s1.concat(" Solutions");
+s1 = s1.concat("soft");
 
 sopln(s1);	//Durgasoft
 sopln(s2);	//Durgasolutions
@@ -177,7 +179,7 @@ sopln(s.charAt(30));	//StringIndesOutOfBoundsException
 2. 
 public String concat(String s);
 
-the overloaded + and += operators also ment for concadination purpose only.
+the overloaded + and += operators also ment for concatenation purpose only.
 
 String s = "Test";
 
