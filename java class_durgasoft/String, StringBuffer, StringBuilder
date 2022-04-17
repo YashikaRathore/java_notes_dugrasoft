@@ -90,16 +90,57 @@ durga<--(s2)	|
 
 Note : 
 _______
-Whenever we are using new operator compulsory a new object will be created in heap area hence there may be a chance of 
-existing two objects with same content in the heap area. But not in SCP i.e duplicate objects are possible in the heap area but not in SCP.
+Whenever we are using NEW operator compulsory a new object will be created in heap area. Hence there is a chance of 
+existing two objects with same content in the heap area but not in the SCP i.e duplicate objects are possible in the heap area but not in the SCP.
 
-String s1 = new String("Durga");
+String s = new String ("durga");
+
+   heap		|     SCP		
+________________|________________		
+ s --> durga    |    durga 	    		
+		|
+
+
+s.concat("software");
+
+   heap		  |    SCP		
+__________________|________________		
+   s -->  durga	  |   durga		
+		  |
+   durgasoftware  |   software	
+		  |
+(This object will |   
+ be eligible for  | 
+ GC as there is   |
+ no reference to  |
+ this object)     |
+ 
+ 
+s = s.concat("solutions");
+
+      heap		|    SCP		
+________________________|______________________		
+      durga	        |   durga		
+		        |
+   durgasoftware        |   software	
+	                |
+(These 2 objects now    |  solutions
+will be eligible        |
+for GC as there is no   |
+reference to these      |
+objects)  	        |
+                        |
+ s-->  durgasolutions   |   
+                        |
+
+
+String s1 = new String("durga");
 s1.concat("software");
-String s2 = s1.concat(" Solutions");
+String s2 = s1.concat(" solutions");
 s1 = s1.concat("soft");
 
-sopln(s1);	//Durgasoft
-sopln(s2);	//Durgasolutions
+sopln(s1);	//durgasoft
+sopln(s2);	//durgasolutions
 
 heap		|    SCP		
 ________________|___________		
@@ -107,7 +148,7 @@ durga		|   durga
 		|
 durgasoftware	|   software	
 		|   
-durgasolutions	|   solutions
+durga solutions	|   solutions
 		|   
 durgasoft	|   soft
 
