@@ -71,7 +71,8 @@ _______
 if object already present then existing object will be reused. 
 if object not already available in SCP then only a new object will be created. But this rule is applicable only for SCP but not for the Heap
 
-2. Garbage collector is not allowed to access SCP area hence even though object doesn't contain reference variable it is not illegible for GC if it is present in SCP area.
+2. Garbage collector is not allowed to access SCP area hence even though object doesn't contain reference variable it is not illegible for GC if 
+it is present in SCP area.
 
 All SCP objects will be destroyed automatically at the time of JVM shutdown.
 
@@ -249,7 +250,8 @@ String s = "java";
 sopln(s.equals("JAVA"));
 sopln(s.equalsIgnoreCaseOf("JAVA"));
 
-Note : In general we can use equalsIgnoreCase() to validate user names where case is not important where as we can use equals() method to validate password. where case is important.
+Note : In general we can use equalsIgnoreCase() to validate user names where case is not important where as we can use equals() method to validate 
+password. where case is important.
 
 5. public String substring(int begin);
 
@@ -368,7 +370,8 @@ S5-----------> testing	|
 how to create our own immutable class
 _______________________________________
 
-once we creates an object we can't perform any changes in that object if we are trying to perform any change and if there is a change in the content then with those changes a new object will be created.
+once we creates an object we can't perform any changes in that object if we are trying to perform any change and if there is a change in the content 
+then with those changes a new object will be created.
 
 if there is no change in the content then existing object will be reused. This behavior is nothing but immutability
 
@@ -421,13 +424,16 @@ sopln(t1 == t2);	//false
 
 sopln(t1 == t3);	//true
 
-Once we create test object we can't perform any change in the existing object if we are trying to perform any change and if there is a change in the content then with those changes a new object will be created and if there is no change in the content then existing object will be reused.
+Once we create test object we can't perform any change in the existing object if we are trying to perform any change and if there is a change in the 
+content then with those changes a new object will be created and if there is no change in the content then existing object will be reused.
 
 _________________________
 final vs immutability
 _________________________
 
-final applicable for variables but not for objects where as immubility applicable for objects but not for variables. by declaring a reference variable as final we won't get any immubility nature even though reference variable is the final we can perform any type of changes in the corresponding object but we can't perform reassignment for that variable.
+final applicable for variables but not for objects where as immubility applicable for objects but not for variables. by declaring a reference variable 
+as final we won't get any immubility nature even though reference variable is the final we can perform any type of changes in the corresponding object 
+but we can't perform reassignment for that variable.
 
 Hence final and immutable both are different concepts
 
@@ -452,12 +458,14 @@ immutable object	//valid
 StringBuffer
 ____________
 
-if content is fixed and won't change frequently then it is recommended to go for String. If the content is not fixed and keep on changing then it is not recommended to use String because for every change a new object will be created which affects performance of the system. To handle this requirement we should go for StringBuffer. The main advantage of StringBuffer over String is all required changes will be performed in the existing object only. 
+if content is fixed and won't change frequently then it is recommended to go for String. If the content is not fixed and keep on changing then it is not
+recommended to use String because for every change a new object will be created which affects performance of the system. To handle this requirement we 
+should go for StringBuffer. The main advantage of StringBuffer over String is all required changes will be performed in the existing object only. 
 
 StringBuffer sb = new StringBuffer();
 
-creates an empty StringBuffer object with default initial capacity 16. Once StringBuffer reaches a max capacity a new StringBuffer object will be created with 
-
+creates an empty StringBuffer object with default initial capacity 16. Once StringBuffer reaches a max capacity a new StringBuffer object will be created
+with 
 new capacity = (currentCapacity + 1) * 2
 
 StringBuffer sb = new StringBuffer();
@@ -581,7 +589,8 @@ sopln(sb.capacity());	//3
 _____________________
 StringBuilder
 _____________________
-Every method present in StringBuffer is synchronized and hence only one thread is allowed to operate on StringBuffer object at a time which may creates performance problems. To handle this requirement sun people introduced StringBuilder concept in 1.5 version.
+Every method present in StringBuffer is synchronized and hence only one thread is allowed to operate on StringBuffer object at a time which may creates 
+performance problems. To handle this requirement sun people introduced StringBuilder concept in 1.5 version.
 
 StringBuilder is exactly same as StringBuffer except the following differences.
 
@@ -626,7 +635,8 @@ then we should go for String		   thread sefty required then we		  required then 
 2. method chaining.
 ___________________
 
-for most of the methods in String, StringBuffer, StringBuilder return types are same type. Hence after applying a method on the result we can call another method which forms method chaining. 
+for most of the methods in String, StringBuffer, StringBuilder return types are same type. Hence after applying a method on the result we can call 
+another method which forms method chaining. 
 
 sb.m1().m2().m3().m4()... 
 
@@ -681,7 +691,8 @@ __________________________
 Interning of String object
 __________________________
 
-we can use intern method to get corresponding SCP object reference by using heap object reference if we want to get corresponding SCP object reference then we should go for intern() method.
+we can use intern method to get corresponding SCP object reference by using heap object reference if we want to get corresponding SCP object reference 
+then we should go for intern() method.
 
 e.g
 
@@ -755,15 +766,18 @@ _____________________________________________________________
 |____________________________________________________________|
 
 
-IN our program if a String object is repeatedly required then it is not recommended to separate object for every requirement because it creates performance on memory problems
+In our program if a String object is repeatedly required then it is not recommended to create a separate object for every requirement because 
+it leads to performance degradation.
+Instead of creating a separate object for every requirement we should be able to create only one object and re-use the same object for every 
+requirement so that performance and memory utilization will be improved.
+This thing is possible because of SCP. Hence the main advantages of SCP are better memory utilization and improved performance.
 
-Instead of creating a separate object for every requirement we have to create only one object and we can re-use same object for every requirement so that performance and memory utilization will be improved.
-
-This thing is possible because of SCP. Hence the main advantages of SCP are memory utilization and performance will be improved.
-
-but the main problem with SCP is, as several references pointing to the same object, by using one reference if we are trying to change the content then remaining references will be affected.
-
-To overcome this problem SUN people implemented String objects as immutable. i.e once we creates a String object we can't perform any changes in the existing object. If we are trying to perform any changes with those changes a new object will be created. Hence SCP is the only reason for immutability of String objects.
+But the main problem with SCP is --> Since multiple references point to the same object in the SCP, if we need to change object's value for one of these
+references and we modify the SCP object to achieve the same, then object value for all other references will also get modified and hence it will impact
+all other references as well.
+To overcome this problem SUN people implemented String objects as immutable. i.e once we create a String object we can't perform any changes in the 
+existing object. If we are trying to perform any changes within an existing string then a new String object will get created with those changes. 
+Hence, it is just because of the SCP and the above mentioned problem thats strings are immutable in Java.
 
 FAQs for interview
 ___________________
@@ -774,18 +788,24 @@ ___________________
 	String s = new String("Durga");
 	String s = "Durga";
 4. Other than Immutability and mutability is any other difference between String and StringBuffer?
-5. What is SCP?
 
+5. What is SCP?
 Ans : it is a specially designed memory area for String objects.
+
 6. What is the advantage of SCP?
+
 7. What is the disadvantage of SCP?	
 immutability
+
 8. Why SCP concept applicable for String but not StringBuffer?
 ans : String is mostly used object and hence SUN people provided special memory management for String objects
 but StringBuffer is not commonly used object and hence special memory management is not required for StringBuffer.
 
 9. Why String objects are immutable where as StringBuffer objects are mutable? 
-Ans : in the case of String because of SCP a single object can be referenced by multiple references. by using one reference if we are allowed to change content in the existing object then remaining references will be affected. To overcome this problem SUN people implemented String Objects as immutable. according to this once we creates a string object we can't perform any changes in the existing object. If we are trying to perform any changes with those changes a new object will be created.
+Ans : in the case of String because of SCP a single object can be referenced by multiple references. by using one reference if we are allowed to 
+change content in the existing object then remaining references will be affected. To overcome this problem SUN people implemented String Objects as 
+immutable. according to this once we creates a string object we can't perform any changes in the existing object. If we are trying to perform any 
+changes with those changes a new object will be created.
 
 String									StringBuffer 
 ________________________________________________________________________________________
@@ -810,14 +830,13 @@ Vijaywada<--------------------|						v2-- Vijaywada
 _____________________________________________________________________________________________
 
 But in string buffer there is no concept like SCP hence for every requirement a separate object will be created.
-By using one reference if we are trying to change content then there is no effect on remaining references hence immutability concept not required for StringBuffer.
+By using one reference if we are trying to change content then there is no effect on remaining references hence immutability concept not required for 
+StringBuffer.
 
 10. In addition to String objects any other objects are immutable in java?
-
 Ans : Yes in addition to String objects all wrapper class objects also immutable.
 
 11. Is it possible to create our own immutable class.
-
 Ans : Yes 
 
 12. How to create our own immutable class? explain with an example.
